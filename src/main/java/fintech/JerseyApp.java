@@ -15,13 +15,13 @@ import javax.inject.Singleton;
 import javax.ws.rs.ext.Provider;
 
 @Provider
-public class JerseyApp extends ResourceConfig {
+class JerseyApp extends ResourceConfig {
     public JerseyApp() {
         register(new Binder());
         packages("fintech.api");
     }
 
-    private static class Binder extends AbstractBinder {
+    protected static class Binder extends AbstractBinder {
 
         @Override
         protected void configure() {

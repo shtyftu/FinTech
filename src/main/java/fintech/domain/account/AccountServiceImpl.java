@@ -4,6 +4,7 @@ import fintech.domain.common.UnitOfWork;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Map;
 
 public class AccountServiceImpl implements AccountService {
 
@@ -20,14 +21,17 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void deposit(AccountId accountId, long moneyAmount, UnitOfWork uow) {
-        repository.load(accountId, uow).depositForced(moneyAmount);
+    public long deposit(AccountId accountId, long moneyAmount, UnitOfWork uow) {
+        return repository.load(accountId, uow).depositForced(moneyAmount);
     }
 
     @Override
-    public void transfer(AccountId senderId, AccountId receiverId, long moneyAmount, UnitOfWork uow) {
-        List<Account> accounts = repository.load(List.of(senderId, receiverId), uow);
-        accounts.get(0).withdraw(moneyAmount);
-        accounts.get(1).depositForced(moneyAmount);
+    public long transfer(AccountId senderId, AccountId receiverId, long moneyAmount, UnitOfWork uow) {
+        Map<AccountId, Account> accountMap = repository.load(List.of(senderId, receiverId), uow);
+
+        accountMap.get(senderId).withdraw(moneyAmount);
+        accountMap.get(receiverId).depositForced(moneyAmount);
+
+        return accountMap.get(senderId).getMoney();
     }
 }

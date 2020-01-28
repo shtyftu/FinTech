@@ -7,7 +7,7 @@ public interface MoneyUseCase {
 
     long getState(AccountId accountId);
 
-    void deposit(AccountId accountId, long moneyAmount);
+    long deposit(AccountId accountId, long moneyAmount);
 
-    void transfer(AccountId senderId, AccountId receiverId, long moneyAmount);
+    long transfer(AccountId senderId, AccountId receiverId, long moneyAmount);
 }

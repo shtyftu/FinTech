@@ -5,6 +5,7 @@ import fintech.domain.account.Account;
 import fintech.domain.account.AccountId;
 import fintech.domain.account.AccountRepository;
 import fintech.domain.common.UnitOfWork;
+import one.util.streamex.StreamEx;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,8 +29,10 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public List<Account> load(List<AccountId> accountList, UnitOfWork uow) {
-        return accountList.stream().sorted().map(it -> load(it, uow)).collect(Collectors.toList());
+    public Map<AccountId, Account> load(List<AccountId> accountList, UnitOfWork uow) {
+        //TODO FIX ME
+//        Map<AccountId, Account> accountMapEx = StreamEx.of(accountList).sorted().toMap(it -> it, it -> load(it, uow));
+        return accountList.stream().sorted().collect(Collectors.toMap(it -> it, it -> load(it, uow)));
     }
 
     @Override

@@ -24,13 +24,13 @@ public class MoneyUseCaseImpl implements MoneyUseCase {
     }
 
     @Override
-    public void deposit(AccountId accountId, long moneyAmount) {
-        unitOfWorkFactory.run(uow -> accountService.deposit(accountId, moneyAmount, uow));
+    public long deposit(AccountId accountId, long moneyAmount) {
+        return unitOfWorkFactory.call(uow -> accountService.deposit(accountId, moneyAmount, uow));
     }
 
     @Override
-    public void transfer(AccountId senderId, AccountId receiverId, long moneyAmount) {
-        unitOfWorkFactory.run(uow -> accountService.transfer(senderId, receiverId, moneyAmount, uow));
+    public long transfer(AccountId senderId, AccountId receiverId, long moneyAmount) {
+        return unitOfWorkFactory.call(uow -> accountService.transfer(senderId, receiverId, moneyAmount, uow));
     }
 
 }

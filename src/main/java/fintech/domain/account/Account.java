@@ -4,7 +4,7 @@ public interface Account {
 
     long getMoney();
 
-    void depositForced(long moneyAmount);
+    long depositForced(long moneyAmount);
 
-    void withdraw(long moneyAmount);
+    long withdraw(long moneyAmount);
 }
