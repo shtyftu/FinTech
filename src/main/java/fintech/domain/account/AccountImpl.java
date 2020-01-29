@@ -1,6 +1,6 @@
-package fintech.data;
+package fintech.domain.account;
 
-import fintech.domain.account.Account;
+import fintech.infra.AccountRepositoryImpl;
 
 public class AccountImpl implements Account {
 

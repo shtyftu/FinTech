@@ -50,8 +50,12 @@ public class MoneyIntegrationTest extends JerseyTest {
         return post("/money/state", new GetStateRequest(accountId), GetStateResponse.class);
     }
 
-    private TransferResponse transfer(String accountId0, String accountId1, long transferAmount) {
-        return post("/money/transfer", new TransferRequest(accountId0, accountId1, transferAmount), TransferResponse.class);
+    private TransferResponse transfer(String senderId, String receiverId, long transferAmount) {
+        return post(
+                "/money/transfer",
+                new TransferRequest(senderId, receiverId, transferAmount),
+                TransferResponse.class
+        );
     }
 
     private <T> T post(String path, Object entity, Class<T> clazz) {

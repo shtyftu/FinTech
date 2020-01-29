@@ -1,4 +1,6 @@
-package fintech.domain.common;
+package fintech.infra;
+
+import fintech.domain.common.UnitOfWork;
 
 import java.util.ArrayList;
 import java.util.List;

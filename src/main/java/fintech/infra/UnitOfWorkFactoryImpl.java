@@ -1,8 +1,8 @@
-package fintech.usecase.common;
+package fintech.infra;
 
 
-import fintech.domain.common.UnitOfWorkImpl;
 import fintech.domain.common.UnitOfWork;
+import fintech.usecase.common.UnitOfWorkFactory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
