@@ -6,10 +6,9 @@ import fintech.domain.account.AccountId;
 import fintech.domain.account.AccountImpl;
 import fintech.domain.account.AccountRepository;
 import fintech.domain.common.UnitOfWork;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class AccountRepositoryImpl implements AccountRepository {
@@ -17,7 +16,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     private final Map<AccountId, AccountImpl> accounts;
 
     public AccountRepositoryImpl() {
-        accounts = new HashMap<>();
+        accounts = new ConcurrentHashMap<>();
     }
 
     @Override
@@ -30,8 +29,8 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public Map<AccountId, Account> load(List<AccountId> accountList, UnitOfWork uow) {
-        //TODO FIX ME
-//        Map<AccountId, Account> accountMapEx = StreamEx.of(accountList).sorted().toMap(it -> it, it -> load(it, uow));
+        //sorted() method is used to avoid deadlock
+        //noinspection RedundantStreamOptionalCall
         return accountList.stream().sorted().collect(Collectors.toMap(it -> it, it -> load(it, uow)));
     }
 

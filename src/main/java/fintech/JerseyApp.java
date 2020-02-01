@@ -21,7 +21,7 @@ class JerseyApp extends ResourceConfig {
         packages("fintech.api");
     }
 
-    protected static class Binder extends AbstractBinder {
+    static class Binder extends AbstractBinder {
 
         @Override
         protected void configure() {

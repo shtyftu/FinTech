@@ -31,4 +31,11 @@ public class AccountId implements Comparable<AccountId> {
     public int hashCode() {
         return Objects.hash(value);
     }
+
+    @Override
+    public String toString() {
+        return "AccountId{" +
+                "value='" + value + '\'' +
+                '}';
+    }
 }
