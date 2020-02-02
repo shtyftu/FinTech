@@ -32,6 +32,10 @@ dependencies {
     implementation group: 'one.util', name: 'streamex', version: '0.7.2'
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
 
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+    implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
+
     implementation group: 'org.glassfish.jersey.core', name: 'jersey-server', version: '2.30'
     implementation group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet-core', version: '2.30'
     implementation group: 'org.glassfish.jersey.containers', name: 'jersey-container-jetty-http', version: '2.30'

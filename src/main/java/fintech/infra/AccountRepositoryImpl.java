@@ -22,24 +22,27 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public Account load(AccountId accountId, UnitOfWork uow) {
         uow.takeLock(accountId);
-        AccountImpl account = load(accountId);
-        uow.register(() -> accounts.put(accountId, account));
-        return account;
+        return loadAndRegister(accountId, uow);
     }
 
     @Override
-    public Map<AccountId, Account> load(List<AccountId> accountList, UnitOfWork uow) {
-        //sorted() method is used to avoid deadlock
-        //noinspection RedundantStreamOptionalCall
-        return accountList.stream().sorted().collect(Collectors.toMap(it -> it, it -> load(it, uow)));
+    public Map<AccountId, Account> load(List<AccountId> accountIds, UnitOfWork uow) {
+        uow.takeLocks(accountIds);
+        return accountIds.stream().collect(Collectors.toMap(it -> it, id -> loadAndRegister(id, uow)));
     }
 
     @Override
     public Account loadReadOnly(AccountId accountId) {
-        return load(accountId);
+        return loadInternal(accountId);
     }
 
-    private AccountImpl load(AccountId accountId) {
+    private Account loadAndRegister(AccountId accountId, UnitOfWork uow) {
+        AccountImpl account = loadInternal(accountId);
+        uow.register(() -> accounts.put(accountId, account));
+        return account;
+    }
+
+    private AccountImpl loadInternal(AccountId accountId) {
         return accounts.computeIfAbsent(accountId, it -> new AccountImpl(0)).copy();
     }
 

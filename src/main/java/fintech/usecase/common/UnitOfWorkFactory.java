@@ -9,10 +9,5 @@ public interface UnitOfWorkFactory {
 
     UnitOfWork create();
 
-    default <T> T call(Function<UnitOfWork, T> uowConsumer) {
-        UnitOfWork uow = create();
-        T result = uowConsumer.apply(uow);
-        uow.flush();
-        return result;
-    }
+    <T> T call(Function<UnitOfWork, T> uowConsumer);
 }

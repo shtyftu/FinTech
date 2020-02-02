@@ -13,6 +13,9 @@ public class UnitOfWorkImpl implements UnitOfWork {
     private final List<ReentrantLock> acquiredLocks;
     private final List<Runnable> flushCallbacks;
 
+    private boolean closed;
+    private boolean flushed;
+
     public UnitOfWorkImpl(Map<Object, ReentrantLock> globalLocks) {
         this.globalLocks = globalLocks;
         flushCallbacks = new ArrayList<>();
@@ -33,7 +36,36 @@ public class UnitOfWorkImpl implements UnitOfWork {
 
     @Override
     public void flush() {
+        if (flushed) {
+            throw new DoubleFlushedUnitException();
+        }
+        if (closed) {
+            throw new FlushClosedUnitException();
+        }
         flushCallbacks.forEach(Runnable::run);
+        flushed = true;
+    }
+
+    @Override
+    public void takeLocks(List<? extends Comparable<?>> lockObjects) {
+        lockObjects.stream().sorted().forEach(this::takeLock);
+    }
+
+    @Override
+    public void close() {
+        if (closed) {
+            throw new DoubleClosedUniteException();
+        }
         acquiredLocks.forEach(ReentrantLock::unlock);
+        closed = true;
+    }
+
+    private static class DoubleFlushedUnitException extends RuntimeException {
+    }
+
+    private static class DoubleClosedUniteException extends RuntimeException {
+    }
+
+    private static class FlushClosedUnitException extends RuntimeException {
     }
 }

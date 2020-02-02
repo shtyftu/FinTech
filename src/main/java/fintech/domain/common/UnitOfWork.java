@@ -1,6 +1,10 @@
 package fintech.domain.common;
 
-public interface UnitOfWork {
+import java.util.List;
+
+public interface UnitOfWork extends AutoCloseable {
+
+    void takeLocks(List<? extends Comparable<?>> lockObjects);
 
     void takeLock(Object accountId);
 

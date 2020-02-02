@@ -4,7 +4,6 @@ import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
 import fintech.domain.account.AccountId;
-import fintech.domain.common.UnitOfWork;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -12,6 +11,8 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -20,36 +21,39 @@ import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(DataProviderRunner.class)
-public class AccountRepositoryImplTest {
+public class UnitOfWorkImplTest {
 
     @Mock
-    private UnitOfWork uow;
+    private Map<Object, ReentrantLock> lockMap;
+    @Mock
+    private ReentrantLock lock;
     @Captor
     private ArgumentCaptor<Object> captor;
 
+
     @Test
-    @UseDataProvider("dataProviderMethod")
-    public void test(List<AccountId> requestedIds, List<AccountId> expectedLocksSequence) {
+    @UseDataProvider("takeLocksDP")
+    public <T extends Comparable<T>> void takeLocks(List<T> requestedIds, List<T> expectedLocksSequence) {
         //Given
         initMocks(this);
-        AccountRepositoryImpl repository = new AccountRepositoryImpl();
+        when(lockMap.computeIfAbsent(any(), any())).thenReturn(lock);
+        UnitOfWorkImpl uow = new UnitOfWorkImpl(lockMap);
 
         // When
-        repository.load(requestedIds, uow);
+        uow.takeLocks(requestedIds);
 
         // Then
         if (expectedLocksSequence.isEmpty()) {
-            verify(uow, never()).takeLock(captor.capture());
+            verify(lockMap, never()).computeIfAbsent(any(), any());
             return;
         }
-        verify(uow, atLeastOnce()).takeLock(captor.capture());
+        verify(lockMap, atLeastOnce()).computeIfAbsent(captor.capture(), any());
         List<Object> lockObjects = captor.getAllValues();
         assertThat(lockObjects, is(expectedLocksSequence));
-
     }
 
     @DataProvider
-    public static List<List<Object>> dataProviderMethod() {
+    public static List<List<Object>> takeLocksDP() {
         return List.of(
                 List.of(
                         idsFrom(List.of("1", "2", "3")),
