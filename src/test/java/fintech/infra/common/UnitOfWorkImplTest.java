@@ -1,4 +1,4 @@
-package fintech.infra;
+package fintech.infra.common;
 
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;

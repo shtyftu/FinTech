@@ -1,4 +1,4 @@
-package fintech.infra;
+package fintech.infra.account;
 
 
 import fintech.domain.account.Account;
@@ -46,6 +46,4 @@ public class AccountRepositoryImpl implements AccountRepository {
         return accounts.computeIfAbsent(accountId, it -> new AccountImpl(0)).copy();
     }
 
-    public static class NotEnoughMoneyException extends RuntimeException {
-    }
 }

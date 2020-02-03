@@ -1,4 +1,4 @@
-package fintech.infra;
+package fintech.infra.common;
 
 
 import fintech.domain.common.UnitOfWork;

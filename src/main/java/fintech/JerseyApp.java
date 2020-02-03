@@ -1,13 +1,13 @@
 package fintech;
 
-import fintech.usecase.money.MoneyUseCase;
-import fintech.usecase.money.MoneyUseCaseImpl;
-import fintech.usecase.common.UnitOfWorkFactory;
-import fintech.infra.UnitOfWorkFactoryImpl;
 import fintech.domain.account.AccountRepository;
-import fintech.infra.AccountRepositoryImpl;
 import fintech.domain.account.AccountService;
 import fintech.domain.account.AccountServiceImpl;
+import fintech.infra.account.AccountRepositoryImpl;
+import fintech.infra.common.UnitOfWorkFactoryImpl;
+import fintech.usecase.common.UnitOfWorkFactory;
+import fintech.usecase.money.MoneyUseCase;
+import fintech.usecase.money.MoneyUseCaseImpl;
 import org.glassfish.jersey.internal.inject.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 

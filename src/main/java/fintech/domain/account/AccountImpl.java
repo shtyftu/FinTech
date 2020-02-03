@@ -1,7 +1,5 @@
 package fintech.domain.account;
 
-import fintech.infra.AccountRepositoryImpl;
-
 public class AccountImpl implements Account {
 
     public long money;
@@ -24,7 +22,7 @@ public class AccountImpl implements Account {
     @Override
     public long withdraw(long moneyAmount) {
         if (money < moneyAmount) {
-            throw new AccountRepositoryImpl.NotEnoughMoneyException();
+            throw new NotEnoughMoneyException();
         }
         money -= moneyAmount;
         return money;
@@ -32,5 +30,8 @@ public class AccountImpl implements Account {
 
     public AccountImpl copy() {
         return new AccountImpl(money);
+    }
+
+    private static class NotEnoughMoneyException extends RuntimeException {
     }
 }

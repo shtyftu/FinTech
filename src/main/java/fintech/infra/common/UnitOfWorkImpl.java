@@ -1,4 +1,4 @@
-package fintech.infra;
+package fintech.infra.common;
 
 import fintech.domain.common.UnitOfWork;
 
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class UnitOfWorkImpl implements UnitOfWork {
+class UnitOfWorkImpl implements UnitOfWork {
 
     private final Map<Object, ReentrantLock> globalLocks;
     private final List<ReentrantLock> acquiredLocks;
@@ -16,7 +16,7 @@ public class UnitOfWorkImpl implements UnitOfWork {
     private boolean closed;
     private boolean flushed;
 
-    public UnitOfWorkImpl(Map<Object, ReentrantLock> globalLocks) {
+    UnitOfWorkImpl(Map<Object, ReentrantLock> globalLocks) {
         this.globalLocks = globalLocks;
         flushCallbacks = new ArrayList<>();
         acquiredLocks = new ArrayList<>();
