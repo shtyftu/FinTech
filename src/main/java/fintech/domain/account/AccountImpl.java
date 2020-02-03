@@ -15,23 +15,27 @@ public class AccountImpl implements Account {
 
     @Override
     public long depositForced(long moneyAmount) {
-        money += moneyAmount;
-        return money;
+        return money = Math.addExact(money, moneyAmount);
     }
 
     @Override
     public long withdraw(long moneyAmount) {
+        if (moneyAmount <= 0) {
+            throw new NegativeWithdrawMoneyException();
+        }
         if (money < moneyAmount) {
             throw new NotEnoughMoneyException();
         }
-        money -= moneyAmount;
-        return money;
+        return money = Math.subtractExact(money, moneyAmount);
     }
 
     public AccountImpl copy() {
         return new AccountImpl(money);
     }
 
-    private static class NotEnoughMoneyException extends RuntimeException {
+    static class NotEnoughMoneyException extends RuntimeException {
+    }
+
+    static class NegativeWithdrawMoneyException extends RuntimeException {
     }
 }
