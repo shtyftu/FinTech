@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 import static org.junit.Assert.assertEquals;
 
-public class MoneyIntegrationTest extends JerseyTest {
+public class MoneyUseCaseTest extends JerseyTest {
 
     @Override
     protected Application configure() {
