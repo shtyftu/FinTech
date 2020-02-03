@@ -1,7 +1,8 @@
-package fintech;
+package fintech.usecase.money;
 
 import fintech.api.MoneyResourceImpl;
 import fintech.api.msg.*;
+import fintech.infra.TestBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
@@ -17,7 +18,7 @@ public class MoneyIntegrationTest extends JerseyTest {
     @Override
     protected Application configure() {
         ResourceConfig resourceConfig = new ResourceConfig(MoneyResourceImpl.class);
-        resourceConfig.register(new JerseyApp.Binder());
+        resourceConfig.register(new TestBinder());
         resourceConfig.packages("fintech.api");
         return resourceConfig;
     }
