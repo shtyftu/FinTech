@@ -1,27 +1,11 @@
 package fintech.usecase.money;
 
-import fintech.api.MoneyResourceImpl;
 import fintech.api.msg.*;
-import fintech.infra.TestBinder;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
-
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Application;
-import javax.ws.rs.core.MediaType;
 
 import static org.junit.Assert.assertEquals;
 
-public class MoneyUseCaseTest extends JerseyTest {
-
-    @Override
-    protected Application configure() {
-        ResourceConfig resourceConfig = new ResourceConfig(MoneyResourceImpl.class);
-        resourceConfig.register(new TestBinder());
-        resourceConfig.packages("fintech.api");
-        return resourceConfig;
-    }
+public class MoneyUseCaseTest extends AMoneyTest {
 
     @Test
     public void testTransferUseCase() {
@@ -43,23 +27,4 @@ public class MoneyUseCaseTest extends JerseyTest {
         assertEquals(stateResponse1.currentMoney, transferAmount);
     }
 
-    private DepositResponse deposit(String accountId, long moneyAmount) {
-        return post("/money/deposit", new DepositRequest(accountId, moneyAmount), DepositResponse.class);
-    }
-
-    private GetStateResponse state(String accountId) {
-        return post("/money/state", new GetStateRequest(accountId), GetStateResponse.class);
-    }
-
-    private TransferResponse transfer(String senderId, String receiverId, long transferAmount) {
-        return post(
-                "/money/transfer",
-                new TransferRequest(senderId, receiverId, transferAmount),
-                TransferResponse.class
-        );
-    }
-
-    private <T> T post(String path, Object entity, Class<T> clazz) {
-        return target(path).request().post(Entity.entity(entity, MediaType.APPLICATION_JSON_TYPE), clazz);
-    }
 }

@@ -33,9 +33,9 @@ public class AccountImpl implements Account {
         return new AccountImpl(money);
     }
 
-    static class NotEnoughMoneyException extends RuntimeException {
+    public static class NotEnoughMoneyException extends RuntimeException {
     }
 
-    static class NegativeWithdrawMoneyException extends RuntimeException {
+    public static class NegativeWithdrawMoneyException extends RuntimeException {
     }
 }

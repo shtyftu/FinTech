@@ -34,7 +34,11 @@ public class UnitOfWorkFactoryImpl implements UnitOfWorkFactory {
             return result;
         } catch (Exception e) {
             logger.error("Work executing error", e);
-            throw new RuntimeException(e);
+            if (e instanceof RuntimeException) {
+                throw (RuntimeException) e;
+            } else {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
