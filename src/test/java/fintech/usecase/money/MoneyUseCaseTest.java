@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 public class MoneyUseCaseTest extends AMoneyTest {
 
     @Test
-    public void testTransferUseCase() {
+    public void transferUseCase() {
         String accountId0 = "0";
         String accountId1 = "1";
         long moneyAmount = 100L;
