@@ -25,13 +25,13 @@ public class MoneyStressTest extends AMoneyTest {
         int threadCount = 15;
 
         ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
-        long trasferMoney = 1L;
+        long transferMoney = 1L;
 
         List<Callable<Object>> tasks = new ArrayList<>();
         for (int i = 0; i < iterationCount; i++) {
             for (int accountIndex = 0; accountIndex < accountCount; accountIndex++) {
                 final int index = accountIndex;
-                tasks.add(() -> transfer(accountId(index), accountId((index + 1) % accountCount), trasferMoney));
+                tasks.add(() -> transfer(accountId(index), accountId((index + 1) % accountCount), transferMoney));
             }
         }
 
